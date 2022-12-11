@@ -1,5 +1,6 @@
 package com.teamone.clivet.model.user;
 
+import com.teamone.clivet.model.pet.Pet;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,8 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -48,6 +51,19 @@ public class User {
     @Transient
     private String token;
 
+    // ------ Relations -------
 
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+    mappedBy = "owner", fetch = FetchType.LAZY)
+    private List<Pet> pets;
+
+
+    public void addPet(Pet pet) {
+        if (pets == null) {
+            pets = new ArrayList<>();
+        }
+        pets.add(pet);
+        pet.setOwner(this);
+    }
 
 }
