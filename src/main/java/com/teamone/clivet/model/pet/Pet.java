@@ -1,6 +1,7 @@
 package com.teamone.clivet.model.pet;
 
 
+import com.teamone.clivet.model.appointment.Appointment;
 import com.teamone.clivet.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +11,8 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -38,6 +41,22 @@ public class Pet {
     @JoinColumn(name="user_id")
     private User owner;
 
+    // owner of the relation
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+            fetch = FetchType.LAZY, mappedBy = "pet")
+    private List<Appointment> appointments;
 
 
+    public void addAppointment(Appointment appointment) {
+        if (appointments == null) {
+            appointments = new ArrayList<>();
+        }
+        appointments.add(appointment);
+        appointment.setPet(this);
+    }
+
+    public Pet setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+        return this;
+    }
 }

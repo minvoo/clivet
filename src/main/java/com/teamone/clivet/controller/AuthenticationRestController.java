@@ -1,7 +1,8 @@
-package com.teamone.clivet.controller.auth;
+package com.teamone.clivet.controller;
 
 import com.teamone.clivet.exception.BadRequestException;
 import com.teamone.clivet.exception.ElementAlreadyExistsException;
+import com.teamone.clivet.exception.handler.UserRestExceptionHandler;
 import com.teamone.clivet.model.user.User;
 import com.teamone.clivet.model.user.dto.UserLoginDto;
 import com.teamone.clivet.service.AuthenticationService;

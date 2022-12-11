@@ -55,7 +55,7 @@ public class JwtProviderImpl implements JwtProvider {
             return null;
         }
         String username = claims.getSubject();
-        Long userId = claims.get("employeeId", Long.class);
+        Long userId = claims.get("userId", Long.class);
 
         Set<GrantedAuthority> authorities = Arrays.stream(claims.get("roles").toString().split(","))
                 .map(SecurityUtils::convertToAuthority)

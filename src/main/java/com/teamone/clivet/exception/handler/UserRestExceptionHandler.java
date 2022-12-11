@@ -1,4 +1,4 @@
-package com.teamone.clivet.controller.auth;
+package com.teamone.clivet.exception.handler;
 
 import com.sun.net.httpserver.HttpsServer;
 import com.teamone.clivet.error.UserErrorResponse;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class UserRestExceptionHandler {
 
    @ExceptionHandler
-   ResponseEntity<UserErrorResponse> handleException(HttpStatus httpStatus, Exception ex) {
+   public ResponseEntity<UserErrorResponse> handleException(HttpStatus httpStatus, Exception ex) {
         return new ResponseEntity<>(new UserErrorResponse(httpStatus.value(),
                 ex.getMessage(),System.currentTimeMillis()), HttpStatus.BAD_REQUEST);
     }

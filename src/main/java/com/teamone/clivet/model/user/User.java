@@ -53,6 +53,7 @@ public class User {
 
     // ------ Relations -------
 
+    // owner of the relation
     @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
     mappedBy = "owner", fetch = FetchType.LAZY)
     private List<Pet> pets;
