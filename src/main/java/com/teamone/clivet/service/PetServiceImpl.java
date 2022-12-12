@@ -41,5 +41,17 @@ public class PetServiceImpl implements PetService {
         return PetRegisterDto.mapToDto(pets);
 
     }
+
+    @Override
+    public Pet findById(Long id) {
+        Pet pet = null;
+        Optional<Pet> optionalPet = petRepository.findById(id);
+        if (optionalPet.isPresent()) {
+            pet = optionalPet.get();
+        } else {
+            throw new ElementNotFoundException("Pet", "id", id.toString());
+        }
+        return pet;
+    }
 }
 

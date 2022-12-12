@@ -16,8 +16,7 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Builder
 @Accessors(chain = true)
 public class PetRegisterDto {
