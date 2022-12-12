@@ -26,8 +26,9 @@ public class AppointmentRestController {
     @GetMapping("/{petId}/appointments")
     public ResponseEntity<?> getAppointments (@PathVariable("petId") Long petId){
 
-        return new ResponseEntity(appointmentService.getByPetId(petId));
+        return new ResponseEntity<>(appointmentService.getByPetId(petId), HttpStatus.OK);
     }
+
 
 }
 

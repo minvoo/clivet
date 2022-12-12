@@ -2,11 +2,16 @@ package com.teamone.clivet.service;
 
 import com.teamone.clivet.model.appointment.Appointment;
 import com.teamone.clivet.model.appointment.dto.AppointmentDto;
-import com.teamone.clivet.model.appointment.dto.AppointmetnListDto;
+import com.teamone.clivet.model.appointment.dto.AppointmentListDto;
 import com.teamone.clivet.model.pet.Pet;
+import com.teamone.clivet.model.user.User;
 import com.teamone.clivet.repository.AppointmentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +19,7 @@ public class AppointmentServiceImpl implements AppointmentService{
 
     private final PetService petService;
     private final AppointmentRepository appointmentRepository;
+    private final UserService userService;
 
     @Override
     public AppointmentDto save(AppointmentDto dto, Long petId) {
@@ -24,9 +30,11 @@ public class AppointmentServiceImpl implements AppointmentService{
     }
 
     @Override
-    public AppointmetnListDto getByPetId(Long petId) {
+    public List <AppointmentListDto> getByPetId(Long petId) {
         Pet pet = petService.findById(petId);
-        appointmentRepository.findAppointmentsByPet()
+        List<Appointment> appointments = appointmentRepository.findAppointmentsByPet(pet);
+        return AppointmentListDto.mapToDto(appointments);
     }
+
 
 }
