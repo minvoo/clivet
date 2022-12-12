@@ -17,7 +17,7 @@ import java.util.Set;
 @Builder
 public class UserPrinciple implements UserDetails {
 
-    private long id;
+    private Long id;
     private String username;
     transient private String password;
     transient private User user;

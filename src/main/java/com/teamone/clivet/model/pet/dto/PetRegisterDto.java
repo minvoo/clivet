@@ -2,6 +2,7 @@ package com.teamone.clivet.model.pet.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.teamone.clivet.model.appointment.Appointment;
+import com.teamone.clivet.model.pet.KindOfPet;
 import com.teamone.clivet.model.pet.Pet;
 import com.teamone.clivet.model.user.User;
 import lombok.*;
@@ -26,8 +27,10 @@ public class PetRegisterDto {
     private String name;
     private int age;
     private int weight;
+    private KindOfPet kind;
     @JsonIgnore
     private User owner;
+
 
 
     public static Pet mapToModel(PetRegisterDto dto) {
@@ -36,8 +39,9 @@ public class PetRegisterDto {
                 .setName(dto.getName())
                 .setAge(dto.getAge())
                 .setWeight(dto.getWeight())
-                .setOwner(dto.getOwner())
-                .setAppointments(new ArrayList<>());
+                .setKind(dto.getKind())
+                .setOwner(dto.getOwner());
+//                .setAppointments(new ArrayList<>());
     }
 
     public static PetRegisterDto mapToDto(Pet pet) {

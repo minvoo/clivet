@@ -1,16 +1,17 @@
 package com.teamone.clivet.model.appointment;
 
 
+import com.teamone.clivet.model.pet.KindOfPet;
 import com.teamone.clivet.model.pet.Pet;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.teamone.clivet.model.user.User;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -32,9 +33,18 @@ public class Appointment {
     private String medicine;
 
     @Column(name = "cost")
-    private Long cost;
+    private Double cost;
+
+    @Column(name = "kind")
+    private KindOfPet kind;
+
+    private boolean cancelled;
 
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name="pet_id")
     private Pet pet;
+
+    @ManyToOne()
+    @JoinColumn(name= "user_id")
+    private User user;
 }

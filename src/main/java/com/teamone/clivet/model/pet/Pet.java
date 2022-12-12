@@ -3,10 +3,7 @@ package com.teamone.clivet.model.pet;
 
 import com.teamone.clivet.model.appointment.Appointment;
 import com.teamone.clivet.model.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
@@ -16,6 +13,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
 @Entity
 @Table(name = "Pet")
@@ -37,26 +35,31 @@ public class Pet {
     @Column(name = "weight")
     private int weight;
 
+    @Column(name = "kind")
+    private KindOfPet kind;
+
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name="user_id")
     private User owner;
 
     // owner of the relation
-    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
-            fetch = FetchType.LAZY, mappedBy = "pet")
-    private List<Appointment> appointments;
+//    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+//            fetch = FetchType.LAZY, mappedBy = "pet")
+    @OneToOne
+    @JoinColumn(name = "appointment_id")
+    private Appointment appointment;
 
 
-    public void addAppointment(Appointment appointment) {
-        if (appointments == null) {
-            appointments = new ArrayList<>();
-        }
-        appointments.add(appointment);
-        appointment.setPet(this);
-    }
-
-    public Pet setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
-        return this;
-    }
+//    public void addAppointment(Appointment appointment) {
+//        if (appointments == null) {
+//            appointments = new ArrayList<>();
+//        }
+//        appointments.add(appointment);
+//        appointment.setPet(this);
+//    }
+//
+//    public Pet setAppointments(List<Appointment> appointments) {
+//        this.appointments = appointments;
+//        return this;
+//    }
 }
