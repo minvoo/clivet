@@ -5,9 +5,9 @@ import com.teamone.clivet.model.pet.Pet;
 import com.teamone.clivet.model.pet.dto.PetRegisterDto;
 import com.teamone.clivet.model.user.User;
 import com.teamone.clivet.repository.PetRepository;
+import com.teamone.clivet.utils.CurrentUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +22,10 @@ public class PetServiceImpl implements PetService {
     @Autowired
     private PetRepository petRepository;
     @Autowired
+    private PetService petService;
+    @Autowired
     private UserService userService;
+
 
     public PetRegisterDto save(PetRegisterDto dto, Long ownerId) {
 
@@ -55,17 +58,13 @@ public class PetServiceImpl implements PetService {
         }
         return pet;
     }
-
-    /**
-     * Zasnawiałem się Czy w argumencie potrzebuje name skoro mam name z Security Contex Holder ???
-     * @return
-     */
     @Override
     public List<PetRegisterDto> getPetsByUserName() {
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<User> byUsername = userService.findByUsername(name);
-        // TODO
-        return getPetsByOwnerId(byUsername.get().getId());
+        String currentUserName = CurrentUserUtils.getCurrentUserName();
+        User user = userService.findByUsername(currentUserName)
+                .orElseThrow(()->new RuntimeException());
+        List<Pet> byOwner = petRepository.findByOwner(user);
+        return PetRegisterDto.mapToDto(byOwner);
     }
 
     @Override

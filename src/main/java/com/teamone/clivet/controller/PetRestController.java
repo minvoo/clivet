@@ -28,10 +28,6 @@ public class PetRestController {
         return new ResponseEntity<>(petService.getPetsByOwnerId(ownerId), HttpStatus.CREATED);
 
     }
-    @GetMapping("/myprofile/pets")
-    public ResponseEntity<?> userListPetsLogged(){
-        return new ResponseEntity<>(petService.getPetsByUserName(),HttpStatus.OK);
-    }
 
     @DeleteMapping("/owner/{ownerId}/pets/{petId}")
     public ResponseEntity<?> deletePet(@PathVariable Long ownerId, @PathVariable Long petId){

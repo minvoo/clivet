@@ -1,9 +1,11 @@
 package com.teamone.clivet.security;
 
+import com.teamone.clivet.model.user.UserRole;
 import com.teamone.clivet.security.jwt.JwtAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -39,8 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/"))
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-
+                .antMatchers("**/myprofile/**")
+                .hasAnyRole(UserRole.USER.name())
                 .and().httpBasic();
 
 
@@ -57,13 +59,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new JwtAuthorizationFilter();
     }
 
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurer() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
-//            }
-//        };
-//    }
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+            }
+        };
+    }
 }
