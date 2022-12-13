@@ -27,4 +27,9 @@ public class PetRestController {
         return new ResponseEntity<>(petService.getPetsByOwnerId(ownerId), HttpStatus.CREATED);
 
     }
+    @GetMapping("/myprofile/pets")
+    public ResponseEntity<?> userListPetsLogged(){
+        return new ResponseEntity<>(petService.getPetsByUserName(),HttpStatus.OK);
+    }
+
 }

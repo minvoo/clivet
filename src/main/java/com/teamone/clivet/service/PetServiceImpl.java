@@ -7,6 +7,7 @@ import com.teamone.clivet.model.user.User;
 import com.teamone.clivet.repository.PetRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class PetServiceImpl implements PetService {
+
 
 
     @Autowired
@@ -52,6 +54,18 @@ public class PetServiceImpl implements PetService {
             throw new ElementNotFoundException("Pet", "id", id.toString());
         }
         return pet;
+    }
+
+    /**
+     * Zasnawiałem się Czy w argumencie potrzebuje name skoro mam name z Security Contex Holder ???
+     * @return
+     */
+    @Override
+    public List<PetRegisterDto> getPetsByUserName() {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<User> byUsername = userService.findByUsername(name);
+        // TODO
+        return getPetsByOwnerId(byUsername.get().getId());
     }
 }
 
