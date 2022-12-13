@@ -42,7 +42,7 @@ public class Pet {
     private User owner;
 
     // owner of the relation
-    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+    @OneToMany(orphanRemoval = true, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
             fetch = FetchType.LAZY, mappedBy = "pet")
     private List<Appointment> appointments;
 
