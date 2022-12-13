@@ -12,4 +12,7 @@ public interface PetService {
     Pet findById(Long id);
 
     List<PetRegisterDto> getPetsByUserName();
+
+    public void deletePet(Pet pet);
+
 }

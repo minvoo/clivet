@@ -67,5 +67,10 @@ public class PetServiceImpl implements PetService {
         // TODO
         return getPetsByOwnerId(byUsername.get().getId());
     }
+
+    @Override
+    public void deletePet(Pet pet) {
+        petRepository.delete(pet);
+    }
 }
 
