@@ -22,8 +22,6 @@ public class PetServiceImpl implements PetService {
     @Autowired
     private PetRepository petRepository;
     @Autowired
-    private PetService petService;
-    @Autowired
     private UserService userService;
 
 
@@ -62,7 +60,7 @@ public class PetServiceImpl implements PetService {
     public List<PetRegisterDto> getPetsByUserName() {
         String currentUserName = CurrentUserUtils.getCurrentUserName();
         User user = userService.findByUsername(currentUserName)
-                .orElseThrow(()->new RuntimeException());
+                .orElseThrow(()->new ElementNotFoundException("User","name",currentUserName));
         List<Pet> byOwner = petRepository.findByOwner(user);
         return PetRegisterDto.mapToDto(byOwner);
     }

@@ -1,5 +1,6 @@
 package com.teamone.clivet.controller;
 
+import com.teamone.clivet.service.AppointmentService;
 import com.teamone.clivet.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +14,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CurrentRestController {
     @Autowired
     private PetService petService;
+    @Autowired
+    private AppointmentService appointmentService;
 
 
     @GetMapping("/myprofile/pets")
     public ResponseEntity<?> userListPetsLogged(){
         return new ResponseEntity<>(petService.getPetsByUserName(), HttpStatus.OK);
     }
+
+    @GetMapping("/myprofile/pets/{petId}/appoitments")
+    public ResponseEntity<?> petListAppoitments(Long petId){
+        return new ResponseEntity<>(appointmentService.getByPetIdLog(petId), HttpStatus.OK);
+    }
+
 
 }
