@@ -10,7 +10,7 @@ public interface PetService {
     public PetRegisterDto save(PetRegisterDto dto, Long ownerId);
     public List<PetRegisterDto> getPetsByOwnerId(Long ownerId);
     Pet findById(Long id);
-    Pet findPetToDelete(Long ownerId, Long petId);
+    Pet findPetByOwnerId(Long ownerId, Long petId);
 
     public void deletePet(Pet pet);
 }

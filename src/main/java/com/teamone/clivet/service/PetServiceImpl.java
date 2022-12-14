@@ -56,13 +56,13 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public Pet findPetToDelete(Long ownerId, Long petId) {
+    public Pet findPetByOwnerId(Long ownerId, Long petId) {
         List<PetRegisterDto> pets = getPetsByOwnerId(ownerId);
 
         PetRegisterDto petToDelete = pets.stream()
                 .filter(dto -> dto.getId() == petId)
-                .collect(Collectors.toList())
-                .get(0);
+                .findFirst()
+                .get();
 
         return PetRegisterDto.mapToModel(petToDelete);
     }
