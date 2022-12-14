@@ -1,5 +1,8 @@
 package com.teamone.clivet.controller;
 
+import com.teamone.clivet.exception.ElementNotFoundException;
+import com.teamone.clivet.exception.handler.UserRestExceptionHandler;
+import com.teamone.clivet.model.pet.Pet;
 import com.teamone.clivet.model.pet.dto.PetRegisterDto;
 import com.teamone.clivet.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,9 @@ public class PetRestController {
     @Autowired
     private PetService petService;
 
+    @Autowired
+    private UserRestExceptionHandler exceptionHandler;
+
     @PostMapping("/owner/{ownerId}/pets")
     public ResponseEntity<?> savePet(@RequestBody PetRegisterDto petDto,
                                      @PathVariable("ownerId") Long ownerId) {
@@ -25,6 +31,18 @@ public class PetRestController {
     public ResponseEntity<?> listOwnersPets(@PathVariable("ownerId") Long ownerId) {
 
         return new ResponseEntity<>(petService.getPetsByOwnerId(ownerId), HttpStatus.CREATED);
+
+    }
+
+    @DeleteMapping("/owner/{ownerId}/pets/{petId}")
+    public ResponseEntity<?> deletePet(@PathVariable Long ownerId, @PathVariable Long petId) {
+        Pet pet = petService.findPetByOwnerId(ownerId, petId);
+        if (pet == null) {
+            return exceptionHandler.handleException
+                    (HttpStatus.NOT_FOUND, new ElementNotFoundException("Pet", "ID", petId.toString()));
+        }
+        petService.deletePet(pet);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 }

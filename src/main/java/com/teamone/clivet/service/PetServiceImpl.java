@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -53,5 +54,23 @@ public class PetServiceImpl implements PetService {
         }
         return pet;
     }
+
+    @Override
+    public Pet findPetByOwnerId(Long ownerId, Long petId) {
+        List<PetRegisterDto> pets = getPetsByOwnerId(ownerId);
+
+        PetRegisterDto petToDelete = pets.stream()
+                .filter(dto -> dto.getId() == petId)
+                .findFirst()
+                .get();
+
+        return PetRegisterDto.mapToModel(petToDelete);
+    }
+
+    @Override
+    public void deletePet(Pet pet) {
+        petRepository.delete(pet);
+    }
+
 }
 
