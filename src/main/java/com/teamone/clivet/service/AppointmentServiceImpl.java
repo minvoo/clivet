@@ -11,7 +11,9 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +36,30 @@ public class AppointmentServiceImpl implements AppointmentService{
         Pet pet = petService.findById(petId);
         List<Appointment> appointments = appointmentRepository.findAppointmentsByPet(pet);
         return AppointmentListDto.mapToDto(appointments);
+    }
+
+    @Override
+    public AppointmentDto update(Long id, AppointmentDto dto) {
+        Appointment appointment = null;
+        Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
+        if(optionalAppointment.isPresent()){
+            appointment = optionalAppointment.get();
+            appointment.setDate(dto.getDate());
+            appointment.setDescription(dto.getDescription());
+            appointment.setMedicine(dto.getMedicine());
+            appointment.setCost(dto.getCost());
+
+            Appointment save = appointmentRepository.save(appointment);
+            return AppointmentDto.mapToDto(save);
+        } else {
+            throw new EntityNotFoundException("Appointment with ID: " + id + " not found");
+        }
+
+    }
+
+    @Override
+    public void delete(Long appId) {
+        appointmentRepository.deleteById(appId);
     }
 
 
