@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CurrentRestController {
     @Autowired
     private PetService petService;
+
     @Autowired
     private AppointmentService appointmentService;
 
