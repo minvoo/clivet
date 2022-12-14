@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -24,7 +25,7 @@ public class CurrentRestController {
     }
 
     @GetMapping("/myprofile/pets/{petId}/appoitments")
-    public ResponseEntity<?> petListAppoitments(Long petId){
+    public ResponseEntity<?> petListAppoitments(@PathVariable("petId") Long petId){
         return new ResponseEntity<>(appointmentService.getByPetIdLog(petId), HttpStatus.OK);
     }
 
