@@ -41,23 +41,20 @@ public class PetServiceImpl implements PetService {
     @Override
     public List<PetRegisterDto> getPetsByOwnerId(Long ownerId) {
 
-        User owner = userService.findById(ownerId).orElseThrow(
-                () -> new ElementNotFoundException("Owner", "id", ownerId.toString()));
+        User owner = userService.findById(ownerId).orElse(null);
+        if (owner == null) {
+            return null;
+        }
         List<Pet> pets = petRepository.findByOwner(owner);
         return PetRegisterDto.mapToDto(pets);
 
     }
 
     @Override
-    public Pet findById(Long id) {
+    public Optional<Pet> findById(Long id) {
         Pet pet = null;
         Optional<Pet> optionalPet = petRepository.findById(id);
-        if (optionalPet.isPresent()) {
-            pet = optionalPet.get();
-        } else {
-            throw new ElementNotFoundException("Pet", "id", id.toString());
-        }
-        return pet;
+        return optionalPet;
     }
 
     @Override
@@ -76,8 +73,11 @@ public class PetServiceImpl implements PetService {
         PetRegisterDto petToDelete = pets.stream()
                 .filter(dto -> dto.getId() == petId)
                 .findFirst()
-                .get();
+                .orElse(null);
 
+        if  (petToDelete == null) {
+            return null;
+        }
         return PetRegisterDto.mapToModel(petToDelete);
     }
 

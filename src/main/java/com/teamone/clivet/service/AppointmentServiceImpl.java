@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AppointmentServiceImpl implements AppointmentService{
+public class AppointmentServiceImpl implements AppointmentService {
 
     private final PetService petService;
     private final AppointmentRepository appointmentRepository;
@@ -23,16 +23,22 @@ public class AppointmentServiceImpl implements AppointmentService{
 
     @Override
     public AppointmentDto save(AppointmentDto dto, Long petId) {
-        Pet pet = petService.findById(petId);
-        dto.setPet(pet);
+        Optional<Pet> pet = petService.findById(petId);
+        if (pet.isEmpty()) {
+            return null;
+        }
+        dto.setPet(pet.get());
         Appointment appointment = appointmentRepository.save(AppointmentDto.mapToModel(dto));
         return AppointmentDto.mapToDto(appointment);
     }
 
     @Override
-    public List <AppointmentListDto> getByPetId(Long petId) {
-        Pet pet = petService.findById(petId);
-        List<Appointment> appointments = appointmentRepository.findAppointmentsByPet(pet);
+    public List<AppointmentListDto> getByPetId(Long petId) {
+        Optional<Pet> pet = petService.findById(petId);
+        if (pet == null) {
+            return null;
+        }
+        List<Appointment> appointments = appointmentRepository.findAppointmentsByPet(pet.get());
         return AppointmentListDto.mapToDto(appointments);
     }
 
@@ -54,7 +60,7 @@ public class AppointmentServiceImpl implements AppointmentService{
     public AppointmentDto update(Long id, AppointmentDto dto) {
         Appointment appointment = null;
         Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
-        if(optionalAppointment.isPresent()){
+        if (optionalAppointment.isPresent()) {
             appointment = optionalAppointment.get();
             appointment.setDate(dto.getDate());
             appointment.setDescription(dto.getDescription());
@@ -64,7 +70,7 @@ public class AppointmentServiceImpl implements AppointmentService{
             Appointment save = appointmentRepository.save(appointment);
             return AppointmentDto.mapToDto(save);
         } else {
-            throw new EntityNotFoundException("Appointment with ID: " + id + " not found");
+            return null;
         }
 
     }
@@ -72,6 +78,12 @@ public class AppointmentServiceImpl implements AppointmentService{
     @Override
     public void delete(Long appId) {
         appointmentRepository.deleteById(appId);
+    }
+
+    @Override
+    public Optional<Appointment> findById(Long appId) {
+
+        return appointmentRepository.findById(appId);
     }
 
 

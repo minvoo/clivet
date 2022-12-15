@@ -5,6 +5,7 @@ import com.teamone.clivet.model.pet.Pet;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
@@ -36,5 +37,6 @@ public class Appointment {
 
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name="pet_id")
+    @ToString.Exclude
     private Pet pet;
 }
