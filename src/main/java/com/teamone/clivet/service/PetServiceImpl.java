@@ -1,17 +1,19 @@
 package com.teamone.clivet.service;
 
 import com.teamone.clivet.exception.ElementNotFoundException;
+import com.teamone.clivet.model.appointment.dto.AppointmentDto;
 import com.teamone.clivet.model.pet.Pet;
 import com.teamone.clivet.model.pet.dto.PetRegisterDto;
+import com.teamone.clivet.model.pet.dto.PetUpdateDto;
 import com.teamone.clivet.model.user.User;
 import com.teamone.clivet.repository.PetRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -65,6 +67,21 @@ public class PetServiceImpl implements PetService {
                 .get();
 
         return PetRegisterDto.mapToModel(petToDelete);
+    }
+
+    @Override
+    public PetUpdateDto updatePet(PetUpdateDto dto, Long ownerId, Long petId) {
+        Pet pet = findPetByOwnerId(ownerId, petId);
+        if(pet == null){
+            throw new ElementNotFoundException("Pet", "id", petId.toString());
+        }
+            pet.setAge(dto.getAge());
+            pet.setWeight(dto.getWeight());
+
+            Pet petUpdated = petRepository.saveAndFlush(pet);
+
+            return PetUpdateDto.mapToDto(petUpdated);
+
     }
 
     @Override
