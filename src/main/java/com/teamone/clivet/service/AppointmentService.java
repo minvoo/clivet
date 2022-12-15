@@ -10,5 +10,5 @@ public interface AppointmentService {
     AppointmentDto save(AppointmentDto dto, Long petId);
 
     List<AppointmentListDto> getByPetId(Long petId);
-    List<AppointmentListDto> getByPetIdLog(Long petId);
+    List<AppointmentListDto> getByPetIdLog(Long id);
 }
