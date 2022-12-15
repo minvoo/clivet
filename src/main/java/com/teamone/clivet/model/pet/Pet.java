@@ -3,10 +3,7 @@ package com.teamone.clivet.model.pet;
 
 import com.teamone.clivet.model.appointment.Appointment;
 import com.teamone.clivet.model.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
@@ -39,6 +36,7 @@ public class Pet {
 
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name="user_id")
+    @ToString.Exclude
     private User owner;
 
     // owner of the relation
