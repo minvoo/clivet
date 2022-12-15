@@ -8,6 +8,7 @@ import com.teamone.clivet.model.appointment.dto.AppointmentDto;
 
 import com.teamone.clivet.model.pet.Pet;
 import com.teamone.clivet.model.pet.dto.PetRegisterDto;
+import com.teamone.clivet.model.pet.dto.PetUpdateDto;
 import com.teamone.clivet.model.user.User;
 import com.teamone.clivet.service.PetService;
 import com.teamone.clivet.service.UserService;

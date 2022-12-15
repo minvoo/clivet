@@ -61,11 +61,11 @@ public class PetServiceImpl implements PetService {
     public List<PetRegisterDto> getPetsByUserName() {
         String currentUserName = CurrentUserUtils.getCurrentUserName();
         User user = userService.findByUsername(currentUserName)
-                .orElseThrow(()->new ElementNotFoundException("User","name",currentUserName));
+                .orElseThrow(() -> new ElementNotFoundException("User", "name", currentUserName));
         List<Pet> byOwner = petRepository.findByOwner(user);
         return PetRegisterDto.mapToDto(byOwner);
 
-
+    }
     @Override
     public Pet findPetByOwnerId(Long ownerId, Long petId) {
         List<PetRegisterDto> pets = getPetsByOwnerId(ownerId);
