@@ -4,11 +4,9 @@ import com.teamone.clivet.model.appointment.Appointment;
 import com.teamone.clivet.model.appointment.dto.AppointmentDto;
 import com.teamone.clivet.model.appointment.dto.AppointmentListDto;
 import com.teamone.clivet.model.pet.Pet;
-import com.teamone.clivet.model.user.User;
+import com.teamone.clivet.model.pet.dto.PetRegisterDto;
 import com.teamone.clivet.repository.AppointmentRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -21,7 +19,7 @@ public class AppointmentServiceImpl implements AppointmentService{
 
     private final PetService petService;
     private final AppointmentRepository appointmentRepository;
-    private final UserService userService;
+
 
     @Override
     public AppointmentDto save(AppointmentDto dto, Long petId) {
@@ -39,6 +37,20 @@ public class AppointmentServiceImpl implements AppointmentService{
     }
 
     @Override
+
+    public List<AppointmentListDto> getByPetIdLog(Long petId) {
+        List<PetRegisterDto> petsByUserName = petService.getPetsByUserName();
+        PetRegisterDto petLog = petsByUserName.stream()
+                .filter(pet -> pet.getId().equals(petId))
+                .findFirst().orElse(null);
+        if (petLog==null){
+            return null;
+        }
+        Pet pet = PetRegisterDto.mapToModel(petLog);
+        List<Appointment> appointments = appointmentRepository.findAppointmentsByPet(pet);
+        return AppointmentListDto.mapToDto(appointments);
+    }
+
     public AppointmentDto update(Long id, AppointmentDto dto) {
         Appointment appointment = null;
         Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
@@ -61,6 +73,7 @@ public class AppointmentServiceImpl implements AppointmentService{
     public void delete(Long appId) {
         appointmentRepository.deleteById(appId);
     }
+
 
 
 }

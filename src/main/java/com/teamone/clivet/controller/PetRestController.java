@@ -1,8 +1,11 @@
 package com.teamone.clivet.controller;
 
+
+
 import com.teamone.clivet.exception.ElementNotFoundException;
 import com.teamone.clivet.exception.handler.UserRestExceptionHandler;
 import com.teamone.clivet.model.appointment.dto.AppointmentDto;
+
 import com.teamone.clivet.model.pet.Pet;
 import com.teamone.clivet.model.pet.dto.PetRegisterDto;
 import com.teamone.clivet.model.pet.dto.PetUpdateDto;
@@ -37,6 +40,7 @@ public class PetRestController {
     }
 
 
+
     @PatchMapping("/owner/{ownerId}/pets/{petId}")
     public ResponseEntity<?> updatePet (@PathVariable("ownerId") Long ownerId, @PathVariable("petId") Long petId,
                                                  @RequestBody PetUpdateDto dto){
@@ -54,4 +58,5 @@ public class PetRestController {
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
+
 }

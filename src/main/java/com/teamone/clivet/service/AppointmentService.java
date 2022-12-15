@@ -11,7 +11,11 @@ public interface AppointmentService {
 
     List<AppointmentListDto> getByPetId(Long petId);
 
+    List<AppointmentListDto> getByPetIdLog(Long id);
+
+
     AppointmentDto update(Long id, AppointmentDto dto);
 
     void delete(Long appId);
+
 }

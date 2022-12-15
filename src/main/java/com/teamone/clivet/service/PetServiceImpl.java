@@ -7,6 +7,7 @@ import com.teamone.clivet.model.pet.dto.PetRegisterDto;
 import com.teamone.clivet.model.pet.dto.PetUpdateDto;
 import com.teamone.clivet.model.user.User;
 import com.teamone.clivet.repository.PetRepository;
+import com.teamone.clivet.utils.CurrentUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,12 @@ import java.util.Optional;
 public class PetServiceImpl implements PetService {
 
 
+
     @Autowired
     private PetRepository petRepository;
     @Autowired
     private UserService userService;
+
 
     public PetRegisterDto save(PetRegisterDto dto, Long ownerId) {
 
@@ -58,6 +61,15 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    public List<PetRegisterDto> getPetsByUserName() {
+        String currentUserName = CurrentUserUtils.getCurrentUserName();
+        User user = userService.findByUsername(currentUserName)
+                .orElseThrow(()->new ElementNotFoundException("User","name",currentUserName));
+        List<Pet> byOwner = petRepository.findByOwner(user);
+        return PetRegisterDto.mapToDto(byOwner);
+
+
+    @Override
     public Pet findPetByOwnerId(Long ownerId, Long petId) {
         List<PetRegisterDto> pets = getPetsByOwnerId(ownerId);
 
@@ -81,7 +93,6 @@ public class PetServiceImpl implements PetService {
             Pet petUpdated = petRepository.saveAndFlush(pet);
 
             return PetUpdateDto.mapToDto(petUpdated);
-
     }
 
     @Override

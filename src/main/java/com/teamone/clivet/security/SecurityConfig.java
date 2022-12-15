@@ -1,5 +1,6 @@
 package com.teamone.clivet.security;
 
+import com.teamone.clivet.model.user.UserRole;
 import com.teamone.clivet.security.jwt.JwtAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -39,8 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/"))
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-
+                .antMatchers("**/myprofile/**")
+                .hasAnyRole(UserRole.USER.name())
                 .and().httpBasic();
 
 

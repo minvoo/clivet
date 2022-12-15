@@ -11,6 +11,13 @@ public interface PetService {
     public PetRegisterDto save(PetRegisterDto dto, Long ownerId);
     public List<PetRegisterDto> getPetsByOwnerId(Long ownerId);
     Pet findById(Long id);
+
+
+    List<PetRegisterDto> getPetsByUserName();
+
+    public void deletePet(Pet pet);
+
+
     Pet findPetByOwnerId(Long ownerId, Long petId);
 
     PetUpdateDto updatePet(PetUpdateDto dto, Long ownerId, Long petId);
