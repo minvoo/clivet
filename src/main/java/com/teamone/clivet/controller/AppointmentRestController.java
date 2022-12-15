@@ -9,14 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/pets")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class AppointmentRestController {
 
     private final AppointmentService appointmentService;
 
 
-    @PostMapping("/{petId}/appointments")
+    @PostMapping("/pets/{petId}/appointments")
     public ResponseEntity<?> saveAppointment(@RequestBody AppointmentDto dto,
                                      @PathVariable("petId") Long petId) {
 
@@ -25,12 +25,23 @@ public class AppointmentRestController {
 
 
 
+
     @GetMapping("/{petId}/appointments")
+
+   
     public ResponseEntity<?> getAppointments (@PathVariable("petId") Long petId){
 
         return new ResponseEntity<>(appointmentService.getByPetId(petId), HttpStatus.OK);
     }
 
-
+    @PutMapping("/appointments/{appId}")
+    public ResponseEntity<?> updateAppointments (@PathVariable("appId") Long appId,
+                                                 @RequestBody AppointmentDto dto){
+        return new ResponseEntity<>(appointmentService.update(appId, dto), HttpStatus.OK);
+    }
+    @DeleteMapping("/appointments/{appId}")
+    void deleteAppointment(@PathVariable("appId") Long appId){
+        appointmentService.delete(appId);
+    }
 }
 

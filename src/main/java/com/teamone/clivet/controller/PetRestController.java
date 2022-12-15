@@ -1,7 +1,14 @@
 package com.teamone.clivet.controller;
 
+
+
+import com.teamone.clivet.exception.ElementNotFoundException;
+import com.teamone.clivet.exception.handler.UserRestExceptionHandler;
+import com.teamone.clivet.model.appointment.dto.AppointmentDto;
+
 import com.teamone.clivet.model.pet.Pet;
 import com.teamone.clivet.model.pet.dto.PetRegisterDto;
+import com.teamone.clivet.model.pet.dto.PetUpdateDto;
 import com.teamone.clivet.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +21,9 @@ public class PetRestController {
 
     @Autowired
     private PetService petService;
+
+    @Autowired
+    private UserRestExceptionHandler exceptionHandler;
 
     @PostMapping("/owner/{ownerId}/pets")
     public ResponseEntity<?> savePet(@RequestBody PetRegisterDto petDto,
@@ -29,15 +39,22 @@ public class PetRestController {
 
     }
 
+
+
+    @PatchMapping("/owner/{ownerId}/pets/{petId}")
+    public ResponseEntity<?> updatePet (@PathVariable("ownerId") Long ownerId, @PathVariable("petId") Long petId,
+                                                 @RequestBody PetUpdateDto dto){
+        return new ResponseEntity<>(petService.updatePet(dto, ownerId, petId), HttpStatus.OK);
+    }
+
     @DeleteMapping("/owner/{ownerId}/pets/{petId}")
-    public ResponseEntity<?> deletePet(@PathVariable Long ownerId, @PathVariable Long petId){
-
-        Pet pet = this.petService.findById(petId);
-        if(pet == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> deletePet(@PathVariable("ownerId") Long ownerId, @PathVariable("petId") Long petId) {
+        Pet pet = petService.findPetByOwnerId(ownerId, petId);
+        if (pet == null) {
+            return exceptionHandler.handleException
+                    (HttpStatus.NOT_FOUND, new ElementNotFoundException("Pet", "ID", petId.toString()));
         }
-
-        this.petService.deletePet(pet);
+        petService.deletePet(pet);
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
