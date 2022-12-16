@@ -4,6 +4,7 @@ import com.teamone.clivet.exception.ElementNotFoundException;
 import com.teamone.clivet.exception.EmptyListException;
 import com.teamone.clivet.exception.handler.UserRestExceptionHandler;
 import com.teamone.clivet.model.user.User;
+import com.teamone.clivet.model.user.dto.UserDetailsDto;
 import com.teamone.clivet.model.user.dto.UserListDto;
 import com.teamone.clivet.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class OwnerController {
                     new ElementNotFoundException("User", "ID", id.toString()));
 
         User user = userOptional.get();
-        UserListDto owner = UserListDto.mapToDto(user);
+        UserDetailsDto owner = UserDetailsDto.mapToDto(user);
         return new ResponseEntity<>(owner,HttpStatus.OK);
 
 
