@@ -3,6 +3,7 @@ package com.teamone.clivet.controller;
 import com.teamone.clivet.exception.ElementNotFoundException;
 import com.teamone.clivet.exception.handler.UserRestExceptionHandler;
 import com.teamone.clivet.model.appointment.dto.AppointmentListDto;
+import com.teamone.clivet.model.pet.dto.PetRegisterDto;
 import com.teamone.clivet.service.AppointmentService;
 import com.teamone.clivet.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,20 @@ public class CurrentRestController {
         }
         return new ResponseEntity<>(appointmentService.getByPetIdLog(petId), HttpStatus.OK);
     }
+
+    @GetMapping("/myprofile/pets/{petId}")
+    public ResponseEntity<?> getPetLogged(@PathVariable("petId") Long petId){
+        PetRegisterDto pet = petService.getPetLogged(petId);
+
+        if (pet == null) {
+            return userRestExceptionHandler.handleException
+                    (HttpStatus.NOT_FOUND, new ElementNotFoundException("Pet", "ID", petId.toString()));
+        }
+
+        return new ResponseEntity<>(petService.getPetLogged(petId), HttpStatus.CREATED);
+    }
+
+
 
 
 }
