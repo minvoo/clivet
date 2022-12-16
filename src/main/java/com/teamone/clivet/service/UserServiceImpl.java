@@ -2,12 +2,14 @@ package com.teamone.clivet.service;
 
 import com.teamone.clivet.model.user.User;
 import com.teamone.clivet.model.user.UserRole;
+import com.teamone.clivet.model.user.dto.UserListDto;
 import com.teamone.clivet.model.user.dto.UserRegisterDto;
 import com.teamone.clivet.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -45,5 +47,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public List<UserListDto> getAllUsers() {
+        List<User> allUsers = userRepository.findAll();
+        List<UserListDto> allUsersDto = UserListDto.mapToDto(allUsers);
+        return allUsersDto;
     }
 }

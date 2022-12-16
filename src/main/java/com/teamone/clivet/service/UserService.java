@@ -1,8 +1,10 @@
 package com.teamone.clivet.service;
 
 import com.teamone.clivet.model.user.User;
+import com.teamone.clivet.model.user.dto.UserListDto;
 import com.teamone.clivet.model.user.dto.UserRegisterDto;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
@@ -13,4 +15,7 @@ public interface UserService {
     Optional<User> findByEmail(String email);
 
     Optional<User> findById(Long ownerId);
+
+    List<UserListDto> getAllUsers();
+
 }
