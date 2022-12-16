@@ -10,17 +10,14 @@ import com.teamone.clivet.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-public class OwnerController {
+public class OwnerRestController {
 
     @Autowired
     UserService userService;
@@ -49,7 +46,19 @@ public class OwnerController {
         User user = userOptional.get();
         UserDetailsDto owner = UserDetailsDto.mapToDto(user);
         return new ResponseEntity<>(owner,HttpStatus.OK);
-
-
     }
+
+    @PatchMapping("/owners/{ownerId}")
+    public ResponseEntity<?> updateOwnerById(@PathVariable("ownerId") Long id,
+                                             @RequestBody UserDetailsDto detailsDto) {
+
+        UserDetailsDto userDetailsDto = userService.updateById(detailsDto, id);
+
+        if (userDetailsDto == null) {
+            return exceptionHandler.handleException(HttpStatus.NOT_FOUND,
+                    new ElementNotFoundException("User", "ID", id.toString()));
+        }
+        return new ResponseEntity<>(userDetailsDto,HttpStatus.ACCEPTED);
+    }
+
 }

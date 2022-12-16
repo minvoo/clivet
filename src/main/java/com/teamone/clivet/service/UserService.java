@@ -1,6 +1,7 @@
 package com.teamone.clivet.service;
 
 import com.teamone.clivet.model.user.User;
+import com.teamone.clivet.model.user.dto.UserDetailsDto;
 import com.teamone.clivet.model.user.dto.UserListDto;
 import com.teamone.clivet.model.user.dto.UserRegisterDto;
 
@@ -18,4 +19,5 @@ public interface UserService {
 
     List<UserListDto> getAllUsers();
 
+    UserDetailsDto updateById(UserDetailsDto detailsDto, Long id);
 }

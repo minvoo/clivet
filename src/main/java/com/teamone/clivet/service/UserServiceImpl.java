@@ -2,6 +2,7 @@ package com.teamone.clivet.service;
 
 import com.teamone.clivet.model.user.User;
 import com.teamone.clivet.model.user.UserRole;
+import com.teamone.clivet.model.user.dto.UserDetailsDto;
 import com.teamone.clivet.model.user.dto.UserListDto;
 import com.teamone.clivet.model.user.dto.UserRegisterDto;
 import com.teamone.clivet.repository.UserRepository;
@@ -52,7 +53,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserListDto> getAllUsers() {
         List<User> allUsers = userRepository.findAll();
-        List<UserListDto> allUsersDto = UserListDto.mapToDto(allUsers);
-        return allUsersDto;
+        return UserListDto.mapToDto(allUsers);
+    }
+
+    @Override
+    public UserDetailsDto updateById(UserDetailsDto detailsDto, Long id) {
+
+        Optional<User> userOptional = findById(id);
+        if(userOptional.isEmpty()) {
+            return null;
+        }
+        User user = UserDetailsDto.mapToModel(detailsDto);
+        User savedUser = userRepository.saveAndFlush(user);
+        return UserDetailsDto.mapToDto(savedUser);
+
+
     }
 }
