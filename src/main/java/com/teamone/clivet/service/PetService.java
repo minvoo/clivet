@@ -16,5 +16,8 @@ public interface PetService {
     public void deletePet(Pet pet);
     Pet findPetByOwnerId(Long ownerId, Long petId);
 
+    PetRegisterDto getPet(Long petId, Long ownerId);
+
+    PetRegisterDto getPetLogged(Long petId);
     PetUpdateDto updatePet(PetUpdateDto dto, Long ownerId, Long petId);
 }

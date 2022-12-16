@@ -62,6 +62,19 @@ public class PetRestController {
         return new ResponseEntity<>(petService.getPetsByOwnerId(ownerId), HttpStatus.CREATED);
 
     }
+    @GetMapping("/owners/{ownerId}/pets/{petId}")
+    public ResponseEntity<?> getPet(@PathVariable("ownerId") Long ownerId, @PathVariable("petId") Long petId){
+        PetRegisterDto pet = petService.getPet(ownerId, petId);
+
+        if (pet == null) {
+            return exceptionHandler.handleException
+                    (HttpStatus.NOT_FOUND, new ElementNotFoundException("Pet", "ID", petId.toString()));
+        }
+
+        return new ResponseEntity<>(petService.getPet(ownerId, petId), HttpStatus.CREATED);
+
+    }
+
 
 
 // TODO dorobic tutaj exception handler
@@ -82,4 +95,8 @@ public class PetRestController {
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
+
+
+
+
 }

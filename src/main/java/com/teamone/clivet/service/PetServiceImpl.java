@@ -1,7 +1,6 @@
 package com.teamone.clivet.service;
 
 import com.teamone.clivet.exception.ElementNotFoundException;
-import com.teamone.clivet.model.appointment.dto.AppointmentDto;
 import com.teamone.clivet.model.pet.Pet;
 import com.teamone.clivet.model.pet.dto.PetRegisterDto;
 import com.teamone.clivet.model.pet.dto.PetUpdateDto;
@@ -12,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+import java.security.cert.Extension;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,6 +79,34 @@ public class PetServiceImpl implements PetService {
         }
         return PetRegisterDto.mapToModel(petToDelete);
     }
+
+    @Override
+    public PetRegisterDto getPet(Long ownerId, Long petId) {
+        Pet petByOwnerId = findPetByOwnerId(ownerId, petId);
+        PetRegisterDto dto = PetRegisterDto.mapToDto(petByOwnerId);
+        petByOwnerId.setId(dto.getId());
+        petByOwnerId.setName(dto.getName());
+        petByOwnerId.setAge(dto.getAge());
+        petByOwnerId.setWeight(dto.getWeight());
+        petByOwnerId.setOwner(dto.getOwner());
+
+        return PetRegisterDto.mapToDto(petByOwnerId);
+    }
+
+    @Override
+    public PetRegisterDto getPetLogged(Long petId) {
+        List<PetRegisterDto> petsByUserName = getPetsByUserName();
+        PetRegisterDto petRegisterDto = petsByUserName.stream()
+                .filter(pet -> pet.getId().equals(petId))
+                .findFirst()
+                .orElse(null);
+        if  (petRegisterDto == null) {
+            return null;
+        }
+        return petRegisterDto;
+
+    }
+
 
     @Override
     public PetUpdateDto updatePet(PetUpdateDto dto, Long ownerId, Long petId) {
