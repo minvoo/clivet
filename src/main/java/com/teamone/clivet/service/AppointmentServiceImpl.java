@@ -1,5 +1,6 @@
 package com.teamone.clivet.service;
 
+import com.teamone.clivet.exception.ElementNotFoundException;
 import com.teamone.clivet.model.appointment.Appointment;
 import com.teamone.clivet.model.appointment.dto.AppointmentDto;
 import com.teamone.clivet.model.appointment.dto.AppointmentListDto;
@@ -86,6 +87,15 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentRepository.findById(appId);
     }
 
-
-
+    @Override
+    public AppointmentDto getAppointmentByPetId(Long petId, Long appId) {
+        Appointment appointment = findById(appId)
+                .stream()
+                .filter(app -> app.getPet().getId() == petId)
+                .findFirst().orElse(null);
+        if (appointment==null){
+            return null;
+        }
+        return AppointmentDto.mapToDto(appointment);
+    }
 }

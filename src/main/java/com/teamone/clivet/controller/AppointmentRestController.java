@@ -1,7 +1,6 @@
 package com.teamone.clivet.controller;
 
 
-import com.teamone.clivet.error.UserErrorResponse;
 import com.teamone.clivet.exception.ElementNotFoundException;
 import com.teamone.clivet.exception.handler.UserRestExceptionHandler;
 import com.teamone.clivet.model.appointment.Appointment;
@@ -27,18 +26,18 @@ public class AppointmentRestController {
 
     @PostMapping("/pets/{petId}/appointments")
     public ResponseEntity<?> saveAppointment(@RequestBody AppointmentDto dto,
-                                     @PathVariable("petId") Long petId) {
+                                             @PathVariable("petId") Long petId) {
 
         Optional<Pet> pet = petService.findById(petId);
         if (pet.isEmpty()) {
             return exceptionHandler.handleException
                     (HttpStatus.NOT_FOUND, new ElementNotFoundException("Pet", "ID", petId.toString()));
         }
-        return  new ResponseEntity<>(appointmentService.save(dto,petId), HttpStatus.CREATED);
+        return new ResponseEntity<>(appointmentService.save(dto, petId), HttpStatus.CREATED);
     }
 
     @GetMapping("pets/{petId}/appointments")
-    public ResponseEntity<?> getAppointments (@PathVariable("petId") Long petId){
+    public ResponseEntity<?> getAppointments(@PathVariable("petId") Long petId) {
 
         Optional<Pet> pet = petService.findById(petId);
         if (pet.isEmpty()) {
@@ -49,18 +48,29 @@ public class AppointmentRestController {
     }
 
     @PutMapping("/appointments/{appId}")
-    public ResponseEntity<?> updateAppointments (@PathVariable("appId") Long appId,
-                                                 @RequestBody AppointmentDto dto){
+    public ResponseEntity<?> updateAppointments(@PathVariable("appId") Long appId,
+                                                @RequestBody AppointmentDto dto) {
 
         AppointmentDto appointmentDto = appointmentService.update(appId, dto);
-        if (appointmentDto  == null)
+        if (appointmentDto == null)
             return exceptionHandler.handleException
                     (HttpStatus.NOT_FOUND, new ElementNotFoundException("Appointment", "ID", appId.toString()));
-            return new ResponseEntity<>(appointmentDto, HttpStatus.OK);
+        return new ResponseEntity<>(appointmentDto, HttpStatus.OK);
 
     }
+
+    @GetMapping("/pets/{petId}/appointments/{appId}")
+    public ResponseEntity<?> getAppoitment(@PathVariable("petId")Long petId,@PathVariable("appId")Long appId){
+        AppointmentDto appointmentByPetId = appointmentService.getAppointmentByPetId(petId, appId);
+
+      if (appointmentByPetId==null)
+          return exceptionHandler.handleException
+                  (HttpStatus.NOT_FOUND, new ElementNotFoundException("Appointment", "ID", appId.toString()));
+        return new ResponseEntity<>(appointmentService.getAppointmentByPetId(petId,appId),HttpStatus.OK);
+    }
+
     @DeleteMapping("/appointments/{appId}")
-    ResponseEntity<?> deleteAppointment(@PathVariable("appId") Long appId){
+    ResponseEntity<?> deleteAppointment(@PathVariable("appId") Long appId) {
 
         Optional<Appointment> appointmentOptional = appointmentService.findById(appId);
         if (appointmentOptional.isEmpty()) {
