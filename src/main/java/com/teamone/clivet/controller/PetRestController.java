@@ -32,7 +32,7 @@ public class PetRestController {
     @Autowired
     private UserRestExceptionHandler exceptionHandler;
 
-    @PostMapping("/owner/{ownerId}/pets")
+    @PostMapping("/owners/{ownerId}/pets")
     public ResponseEntity<?> savePet(@RequestBody PetRegisterDto petDto,
                                      @PathVariable("ownerId") Long ownerId) {
 
@@ -47,7 +47,7 @@ public class PetRestController {
         return new ResponseEntity<>(petService.save(petDto, ownerId), HttpStatus.CREATED);
     }
 
-    @GetMapping("/owner/{ownerId}/pets")
+    @GetMapping("/owners/{ownerId}/pets")
     public ResponseEntity<?> listOwnersPets(@PathVariable("ownerId") Long ownerId) {
 
 
@@ -65,13 +65,13 @@ public class PetRestController {
 
 
 // TODO dorobic tutaj exception handler
-    @PatchMapping("/owner/{ownerId}/pets/{petId}")
+    @PatchMapping("/owners/{ownerId}/pets/{petId}")
     public ResponseEntity<?> updatePet (@PathVariable("ownerId") Long ownerId, @PathVariable("petId") Long petId,
                                                  @RequestBody PetUpdateDto dto){
         return new ResponseEntity<>(petService.updatePet(dto, ownerId, petId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/owner/{ownerId}/pets/{petId}")
+    @DeleteMapping("/owners/{ownerId}/pets/{petId}")
     public ResponseEntity<?> deletePet(@PathVariable("ownerId") Long ownerId, @PathVariable("petId") Long petId) {
         Pet pet = petService.findPetByOwnerId(ownerId, petId);
         if (pet == null) {
