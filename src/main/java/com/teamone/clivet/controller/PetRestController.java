@@ -64,7 +64,7 @@ public class PetRestController {
     }
 
 
-
+// TODO dorobic tutaj exception handler
     @PatchMapping("/owner/{ownerId}/pets/{petId}")
     public ResponseEntity<?> updatePet (@PathVariable("ownerId") Long ownerId, @PathVariable("petId") Long petId,
                                                  @RequestBody PetUpdateDto dto){

@@ -32,7 +32,7 @@ public class CurrentRestController {
         return new ResponseEntity<>(petService.getPetsByUserName(), HttpStatus.OK);
     }
 
-    @GetMapping("/myprofile/pets/{petId}/appoitments")
+    @GetMapping("/myprofile/pets/{petId}/appointments")
     public ResponseEntity<?> petListAppoitments(@PathVariable("petId") Long petId){
         List<AppointmentListDto> byPetIdLog = appointmentService.getByPetIdLog(petId);
         if (byPetIdLog==null){

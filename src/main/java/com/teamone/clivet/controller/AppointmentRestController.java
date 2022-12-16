@@ -37,7 +37,7 @@ public class AppointmentRestController {
         return  new ResponseEntity<>(appointmentService.save(dto,petId), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{petId}/appointments")
+    @GetMapping("pets/{petId}/appointments")
     public ResponseEntity<?> getAppointments (@PathVariable("petId") Long petId){
 
         Optional<Pet> pet = petService.findById(petId);

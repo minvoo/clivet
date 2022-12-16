@@ -21,12 +21,4 @@ public class CurrentUserUtils {
         }
         return currentUserName;
     }
-    public void checkUserIsOwnerOfPet(Long id) {
-        String username = getCurrentUserName();
-        petService.findById(id);
-
-        if (!petService.findById(id).getOwner().getUsername().equals(username)) {
-            throw new IllegalArgumentException();
-        }
-    }
 }
