@@ -22,4 +22,6 @@ public interface AppointmentService {
 
     Optional<Appointment> findById(Long appId);
 
+
+    AppointmentDto getAppointmentByPetId(Long petId,Long appId);
 }
