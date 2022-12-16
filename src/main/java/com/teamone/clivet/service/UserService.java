@@ -21,6 +21,5 @@ public interface UserService {
     List<UserListDto> getAllUsers();
 
     UserDetailsDto updateById(UserDetailsDto detailsDto, Long id);
-
-    ResponseEntity<?> deleteById(Long id);
+    void delete(Long appId);
 }

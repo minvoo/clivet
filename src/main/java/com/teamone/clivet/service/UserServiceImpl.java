@@ -1,6 +1,5 @@
 package com.teamone.clivet.service;
 
-import com.teamone.clivet.handler.SuccessDeleteHandler;
 import com.teamone.clivet.model.user.User;
 import com.teamone.clivet.model.user.UserRole;
 import com.teamone.clivet.model.user.dto.UserDetailsDto;
@@ -8,8 +7,6 @@ import com.teamone.clivet.model.user.dto.UserListDto;
 import com.teamone.clivet.model.user.dto.UserRegisterDto;
 import com.teamone.clivet.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -72,15 +69,8 @@ public class UserServiceImpl implements UserService {
 
 
     }
-
     @Override
-    public ResponseEntity<?> deleteById(Long id) {
-
-        Optional<User> userOptional = findById(id);
-        if(userOptional.isEmpty()) {
-            return null;
-        }
-        userRepository.deleteById(id);
-        return SuccessDeleteHandler.handleDelete();
+    public void delete(Long appId) {
+        userRepository.deleteById(appId);
     }
 }

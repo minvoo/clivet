@@ -1,11 +1,15 @@
 package com.teamone.clivet.controller;
 
+import com.teamone.clivet.delete.SuccessDelete;
+import com.teamone.clivet.delete.SuccessDeleteHandler;
 import com.teamone.clivet.exception.ElementNotFoundException;
 import com.teamone.clivet.exception.EmptyListException;
 import com.teamone.clivet.exception.handler.UserRestExceptionHandler;
+import com.teamone.clivet.model.appointment.Appointment;
 import com.teamone.clivet.model.user.User;
 import com.teamone.clivet.model.user.dto.UserDetailsDto;
 import com.teamone.clivet.model.user.dto.UserListDto;
+import com.teamone.clivet.repository.UserRepository;
 import com.teamone.clivet.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +28,12 @@ public class OwnerRestController {
     @Autowired
     UserRestExceptionHandler exceptionHandler;
 
+    @Autowired
+    SuccessDeleteHandler deleteHandler;
+
+    @Autowired
+    UserRepository userRepository;
+
     @GetMapping("/owners")
     public ResponseEntity<?> getOwnersList() {
 
@@ -37,7 +47,7 @@ public class OwnerRestController {
     @GetMapping("/owners/{ownerId}")
     public ResponseEntity<?> getOwnerById(@PathVariable("ownerId") Long id) {
 
-        Optional<User> userOptional  =  userService.findById(id);
+        Optional<User> userOptional = userService.findById(id);
 
         if (userOptional.isEmpty())
             return exceptionHandler.handleException(HttpStatus.NOT_FOUND,
@@ -45,7 +55,7 @@ public class OwnerRestController {
 
         User user = userOptional.get();
         UserDetailsDto owner = UserDetailsDto.mapToDto(user);
-        return new ResponseEntity<>(owner,HttpStatus.OK);
+        return new ResponseEntity<>(owner, HttpStatus.OK);
     }
 
     @PatchMapping("/owners/{ownerId}")
@@ -58,7 +68,19 @@ public class OwnerRestController {
             return exceptionHandler.handleException(HttpStatus.NOT_FOUND,
                     new ElementNotFoundException("User", "ID", id.toString()));
         }
-        return new ResponseEntity<>(userDetailsDto,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userDetailsDto, HttpStatus.ACCEPTED);
     }
 
+    @DeleteMapping("/owners/{ownerId}")
+    public ResponseEntity<?> deleteOwnerById(@PathVariable("ownerId") Long id) {
+
+        Optional<User> userOptional = userService.findById(id);
+        if (userOptional.isEmpty()) {
+            return exceptionHandler.handleException(
+                    HttpStatus.NOT_FOUND, new ElementNotFoundException("User", "ID", id.toString()));
+        }
+        userService.delete(id);
+
+        return deleteHandler.handleDelete(HttpStatus.OK, new SuccessDelete());
+    }
 }
