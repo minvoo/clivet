@@ -69,7 +69,7 @@ public class CurrentRestController {
         if (appointmentDto==null)
             return userRestExceptionHandler.handleException
                     (HttpStatus.NOT_FOUND, new ElementNotFoundException("Appointment", "ID", appId.toString()));
-        return new ResponseEntity<>(appointmentService.getAppointmentByPetId(petId,appId),HttpStatus.OK);
+        return new ResponseEntity<>(appointmentDto,HttpStatus.OK);
     }
 
 
