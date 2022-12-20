@@ -2,6 +2,8 @@ package com.teamone.clivet.controller;
 
 import com.teamone.clivet.exception.ElementNotFoundException;
 import com.teamone.clivet.exception.handler.UserRestExceptionHandler;
+import com.teamone.clivet.model.appointment.Appointment;
+import com.teamone.clivet.model.appointment.dto.AppointmentDto;
 import com.teamone.clivet.model.appointment.dto.AppointmentListDto;
 import com.teamone.clivet.model.pet.dto.PetRegisterDto;
 import com.teamone.clivet.service.AppointmentService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api")
@@ -27,6 +30,7 @@ public class CurrentRestController {
 
     @Autowired
     private UserRestExceptionHandler userRestExceptionHandler;
+
 
     @GetMapping("/myprofile/pets")
     public ResponseEntity<?> userListPetsLogged(){
@@ -53,6 +57,19 @@ public class CurrentRestController {
         }
 
         return new ResponseEntity<>(petService.getPetLogged(petId), HttpStatus.CREATED);
+    }
+
+
+    @GetMapping("/myprofile/appointments/{appId}")
+    public ResponseEntity<?> getAppointmentCurrentUser(Long petId,@PathVariable("appId")Long appId){
+        Optional<Appointment> appointmentOptional = appointmentService.findById(appId);
+        Appointment appointment = appointmentOptional.get();
+        AppointmentDto appointmentDto = AppointmentDto.mapToDto(appointment);
+
+        if (appointmentDto==null)
+            return userRestExceptionHandler.handleException
+                    (HttpStatus.NOT_FOUND, new ElementNotFoundException("Appointment", "ID", appId.toString()));
+        return new ResponseEntity<>(appointmentService.getAppointmentByPetId(petId,appId),HttpStatus.OK);
     }
 
 
