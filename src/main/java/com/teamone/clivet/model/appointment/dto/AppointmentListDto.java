@@ -17,16 +17,20 @@ import java.util.stream.Collectors;
 @Builder
 @Accessors(chain = true)
 public class AppointmentListDto {
+
+    private Long id;
     private LocalDate date;
     private Long cost;
 
     public static Appointment mapToModel(AppointmentListDto dto) {
         return new Appointment()
+                .setId(dto.getId())
                 .setDate(dto.getDate())
                 .setCost(dto.getCost());
     }
     public static AppointmentListDto mapToDto(Appointment dto) {
         return new AppointmentListDto()
+                .setId(dto.getId())
                 .setDate(dto.getDate())
                 .setCost(dto.getCost());
     }

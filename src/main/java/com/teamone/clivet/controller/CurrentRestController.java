@@ -61,7 +61,7 @@ public class CurrentRestController {
 
 
     @GetMapping("/myprofile/appointments/{appId}")
-    public ResponseEntity<?> getAppointmentCurrentUser(Long petId,@PathVariable("appId")Long appId){
+    public ResponseEntity<?> getAppointmentCurrentUser(@PathVariable("appId")Long appId){
         Optional<Appointment> appointmentOptional = appointmentService.findById(appId);
         Appointment appointment = appointmentOptional.get();
         AppointmentDto appointmentDto = AppointmentDto.mapToDto(appointment);

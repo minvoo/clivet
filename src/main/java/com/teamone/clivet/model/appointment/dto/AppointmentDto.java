@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @Accessors(chain = true)
 public class AppointmentDto {
 
-
+    private Long id;
     private LocalDate date;
     private String description;
     private String medicine;
@@ -29,6 +29,7 @@ public class AppointmentDto {
 
     public static Appointment mapToModel(AppointmentDto dto) {
         return new Appointment()
+                .setId(dto.getId())
                 .setDate(dto.getDate())
                 .setDescription(dto.getDescription())
                 .setMedicine(dto.getMedicine())
@@ -37,6 +38,7 @@ public class AppointmentDto {
     }
     public static AppointmentDto mapToDto(Appointment appointment) {
         return new AppointmentDto()
+                .setId(appointment.getId())
                 .setDate(appointment.getDate())
                 .setDescription(appointment.getDescription())
                 .setMedicine(appointment.getMedicine())
