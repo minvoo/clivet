@@ -1,10 +1,7 @@
 package com.teamone.clivet.model.user;
 
 import com.teamone.clivet.model.pet.Pet;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
@@ -20,6 +17,7 @@ import java.util.List;
         @UniqueConstraint(columnNames = {"username"}),
         @UniqueConstraint(columnNames = {"email"})})
 @Accessors(chain = true, fluent = false)
+@ToString
 public class User {
 
     @Id
@@ -56,6 +54,7 @@ public class User {
     // owner of the relation
     @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE},
     mappedBy = "owner", fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<Pet> pets;
 
 

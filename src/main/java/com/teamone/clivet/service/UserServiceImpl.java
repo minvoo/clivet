@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 
-
-
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -23,6 +21,7 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UserRepository userRepository;
+
     @Override
     public Optional<User> findByUsername(String username) {
         return userRepository.findUserByUsername(username);
@@ -60,15 +59,36 @@ public class UserServiceImpl implements UserService {
     public UserDetailsDto updateById(UserDetailsDto detailsDto, Long id) {
 
         Optional<User> userOptional = findById(id);
-        if(userOptional.isEmpty()) {
+        if (userOptional.isEmpty()) {
             return null;
         }
-        User user = UserDetailsDto.mapToModel(detailsDto);
-        User savedUser = userRepository.saveAndFlush(user);
+
+        System.out.println("user before" + userOptional.get());
+
+        User userEnt = userOptional.get();
+        if (detailsDto.getFirstName() != null)
+            userEnt.setFirstName(detailsDto.getFirstName());
+
+        if (detailsDto.getLastName() != null)
+            userEnt.setLastName(detailsDto.getLastName());
+        if (detailsDto.getUsername() != null)
+            userEnt.setUsername(detailsDto.getUsername());
+        if (detailsDto.getPassword() != null) {
+            detailsDto.setPassword(passwordEncoder.encode(detailsDto.getPassword()));
+            userEnt.setPassword(detailsDto.getPassword());
+        }
+        if (detailsDto.getEmail() != null) {
+            userEnt.setEmail(detailsDto.getEmail());
+        }
+
+        System.out.println("user after" + userEnt);
+        User savedUser = userRepository.save(userEnt);
+        System.out.println("user after save" + savedUser);
         return UserDetailsDto.mapToDto(savedUser);
 
 
     }
+
     @Override
     public void delete(Long appId) {
         userRepository.deleteById(appId);
