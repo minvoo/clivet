@@ -1,5 +1,6 @@
 package com.teamone.clivet.security;
 
+import com.teamone.clivet.model.user.User;
 import com.teamone.clivet.model.user.UserRole;
 import com.teamone.clivet.security.jwt.JwtAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/"))
                 .authorizeRequests()
-                .antMatchers("**/myprofile/**")
-                .hasAnyRole(UserRole.USER.name())
-                .and().httpBasic();
+                .antMatchers("**/myprofile/**").hasAnyRole(UserRole.USER.name(), UserRole.ADMIN.name())
+                //.antMatchers("/api/pets/**").hasRole(UserRole.ADMIN.name())
+                //.antMatchers("/api/appointments/**").hasRole(UserRole.ADMIN.name())
+                //.antMatchers("/api/owners/**").hasRole(UserRole.ADMIN.name())
+                .and()
+                .httpBasic();
 
 
         http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
