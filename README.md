@@ -18,9 +18,9 @@
 
 <h3 align="center">CLIVET</h3>
  <center>  ·
-    <a href="https://github.com/minvoo/iteis/issues">Report Bug</a>
+    <a href="https://github.com/minvoo/clivet/issues">Report Bug</a>
     ·
-    <a href="https://github.com/minvoo/ITEIS/issues/new">Request Feature</a>
+    <a href="https://github.com/minvoo/clivet/issues/new">Request Feature</a>
 </center>
 </div>
 
@@ -160,25 +160,25 @@ Project Link: [https://github.com/minvoo/clivet](https://github.com/minvoo/clive
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/minvoo/iteis.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/minvoo/clivet.svg?style=for-the-badge
 
-[contributors-url]: https://github.com/minvoo/iteis/graphs/contributors
+[contributors-url]: https://github.com/minvoo/clivet/graphs/contributors
 
-[forks-shield]: https://img.shields.io/github/forks/minvoo/iteis.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/minvoo/clivet.svg?style=for-the-badge
 
-[forks-url]: https://github.com/minvoo/iteis/network/members
+[forks-url]: https://github.com/minvoo/clivet/network/members
 
-[stars-shield]: https://img.shields.io/github/stars/minvoo/iteis.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/minvoo/clivet.svg?style=for-the-badge
 
-[stars-url]: https://github.com/minvoo/iteis/stargazers
+[stars-url]: https://github.com/minvoo/clivet/stargazers
 
-[issues-shield]: https://img.shields.io/github/issues/minvoo/iteis.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/minvoo/clivet.svg?style=for-the-badge
 
-[issues-url]: https://github.com/minvoo/iteis/issues
+[issues-url]: https://github.com/minvoo/clivet/issues
 
-[license-shield]: https://img.shields.io/github/license/minvoo/iteis.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/minvoo/clivet.svg?style=for-the-badge
 
-[license-url]: https://github.com/minvoo/iteis/blob/master/LICENSE.txt
+[license-url]: https://github.com/minvoo/clivet/blob/master/LICENSE.txt
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 
